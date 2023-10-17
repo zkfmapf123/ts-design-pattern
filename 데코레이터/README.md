@@ -8,12 +8,12 @@
 
 ```ts
 class Beverage {
-  public description: string
+  public description: string;
 
   public getDescription() {}
 
   public cost() {
-    throw new Error('must be implementation')
+    throw new Error("must be implementation");
   }
 }
 
@@ -99,13 +99,13 @@ class Espresso extends Beverage {
 
 ```ts
 abstract class CondimentDecorator extends Beverage {
-  protected beverage?: Beverage
+  protected beverage?: Beverage;
 
   // 자식클래스에서 구현
-  public abstract getDescription(): string
+  public abstract getDescription(): string;
 
   // 자기자신이 누구인지?
-  public abstract whoareyou(): string
+  public abstract whoareyou(): string;
 }
 ```
 
@@ -125,32 +125,47 @@ abstract class CondimentDecorator extends Beverage {
 ![11](../public/11.png)
 
 ```ts
-import * as functions from 'firebase-functions'
+import * as functions from "firebase-functions";
 
 interface CoalvoCallableContenxt extends functions.https.CallableContext {
-  ua: any
-  isWebBrowserRequest: boolean
+  ua: any;
+  isWebBrowserRequest: boolean;
 }
 
 export type Middleware = (
   data: any,
   context: CoalvoCallableContenxt,
   next: (data: any, context: CoalvoCallableContenxt) => Promise<any>
-) => Promise<any>
+) => Promise<any>;
 
-export const withMiddlewares = (middlewares: Middleware[], handler: any) => (data: any, context: CoalvoCallableContenxt) => {
-  const chainMiddlewares = ([firstMiddleware, ...restMiddlewares]: Middleware[]) => {
-    if (firstMiddleware) {
-      return (data: any, context: CoalvoCallableContenxt): Promise<any> => {
-        try {
-          return firstMiddleware(data, context, chainMiddlewares(restMiddlewares))
-        } catch (e) {
-          return Promise.reject(e)
-        }
+export const withMiddlewares =
+  (middlewares: Middleware[], handler: any) =>
+  (data: any, context: CoalvoCallableContenxt) => {
+    const chainMiddlewares = ([
+      firstMiddleware,
+      ...restMiddlewares
+    ]: Middleware[]) => {
+      if (firstMiddleware) {
+        return (data: any, context: CoalvoCallableContenxt): Promise<any> => {
+          try {
+            return firstMiddleware(
+              data,
+              context,
+              chainMiddlewares(restMiddlewares)
+            );
+          } catch (e) {
+            return Promise.reject(e);
+          }
+        };
       }
-    }
-    return handler
-  }
-  return chainMiddlewares(middlewares)(data, context)
-}
+      return handler;
+    };
+    return chainMiddlewares(middlewares)(data, context);
+  };
 ```
+
+## 결론
+
+- 기존 코드를 수정하지 않고, 데코레이터 패턴을 통해서 행동자체를 확장할 수 있다.
+- 다만, 의미없는 객체가 생성된다 (Decorator-\*),
+- Decorator -> Decorator -> Decorator Depth가 많아질 수 있다.
