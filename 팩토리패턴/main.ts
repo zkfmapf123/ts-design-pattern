@@ -1,10 +1,8 @@
-import { RepositoryFactory } from './factory'
+import { repositoryFactory } from './factory'
 ;(() => {
-  const factory = new RepositoryFactory()
-
-  const child = factory.create('child')
-  const man = factory.create('man')
-  const girl = factory.create('girl')
+  const child = repositoryFactory.create('child')
+  const man = repositoryFactory.create('man')
+  const girl = repositoryFactory.create('girl')
 
   child.speak()
   man.speak()

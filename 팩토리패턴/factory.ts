@@ -1,8 +1,8 @@
-import { Child, Girl, Man, Repository } from './stuffs'
+import { Child, Girl, Man, Repository } from './repository'
 
 type factoryKeys = 'man' | 'girl' | 'child'
 
-export class RepositoryFactory {
+class RepositoryFactory {
   constructor() {}
 
   create(tag: factoryKeys): Repository {
@@ -13,3 +13,5 @@ export class RepositoryFactory {
     throw new Error('Not Exists')
   }
 }
+
+export const repositoryFactory = new RepositoryFactory()
