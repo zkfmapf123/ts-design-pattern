@@ -108,5 +108,10 @@
 - MVC가 사용되는 Design Pattern들... (p.560 ~ )
 
   - 전략패턴
+    ![strategy](./public/strategy.png)
+
   - 컴포지트 패턴
+    ![composite](./public/composite.png)
+
   - 옵저버 패턴
+    ![observer](./public/observer.png)
